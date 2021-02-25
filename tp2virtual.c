@@ -26,10 +26,11 @@ void (*ref_function) (page_table_item *) = NULL;
 int (*replace_function) () = NULL;
 	
 // Função para leitura do arquivo e acessos a memoria
-void execute(FILE *log) {	
+void execute(FILE *log) {
 	unsigned v_addr;
 	char rw;
-	while (fscanf(log,"%x %c",&v_addr,&rw)==1)  {
+
+	while (fscanf(log,"%x %c",&v_addr,&rw)!=EOF)  {
 		get_frame(v_addr, rw);
 	}
 	
@@ -51,15 +52,9 @@ int main(int argc, char *argv[]) {
 		sscanf (argv[3],"%d", &page_size);
 		sscanf (argv[4],"%d", &mem_size);
 
-		fprintf(stdout, "Executando o simulador..\n");
-		fprintf(stdout, "Arquivo de entrada: %s\n", log_file);
-		fprintf(stdout, "Tamanho da memória: %d KB\n", mem_size);
-		fprintf(stdout, "Tamanho das páginas: %d KB\n", page_size);
-		fprintf(stdout, "Tecnica de reposição: %s\n", alg);
-
 		if(log_file != NULL) {
 			if((file = fopen(log_file, "r")) == NULL) {
-				perror("Erro ao abrir o arquivo de entrada");
+				printf("Erro ao abrir o arquivo de entrada");
 				exit(1);
 			}
 		}
@@ -67,8 +62,10 @@ int main(int argc, char *argv[]) {
 		// Initializa a page_table e a frames_list
 		init_page_table(page_size);
 		init_frames_list(mem_size, page_size);
-	
-		fprintf(stdout, "Paginas inicializadas\n");
+
+		// Imprime a tabela inicial
+		printf("Tabela inicial\n\n");
+		print_page_table();
 
 		// Inicializando funções do algoritmo de substituição
 		int i;
@@ -86,16 +83,27 @@ int main(int argc, char *argv[]) {
 
 		execute(file);
 
+		// Imprime a tabela final
+		printf("\nTabela final\n\n");
+		print_page_table();
+		// Imprime as informações necessárias
+		printf("\nArquivo de entrada: %s\n", log_file);
+		printf("Tamanho da memória: %d KB\n", mem_size);
+		printf("Tamanho das páginas: %d KB\n", page_size);
+		printf("Tecnica de reposição: %s\n", alg);
+		printf("Paginas lidas:  %d\n", faults_counter);
+		printf("Paginas escritas: %d\n", dirty_counter);
+
 		// Desaloca as estruturas
 		destroy_page_table();
 		destroy_frames_list();
 		
+
 		} else {
 			// Se o número de argumentos estiver errado avisa como se usa o tp
-			fprintf(stderr, "USAGE: tp2virtual algoritimo nome_arquivo tamanho_pagina tamanho_memoria\n");
+			printf("USAGE: tp2virtual algoritimo nome_arquivo tamanho_pagina tamanho_memoria\n");
 			exit(1);
 		}
-
 
 	return 0;
 }

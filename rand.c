@@ -26,7 +26,6 @@ int rand_replace() {
  * Entrada: a entrada da tabela da página que está sendo acessada.
  */
 void rand_ref(page_table_item *p) {
-
 	return;
 }
 

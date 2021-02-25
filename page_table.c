@@ -14,7 +14,6 @@ frame* frames_list = NULL;	// Lista de frames
 *
 */	
 void init_page_table(unsigned page_size_kb) {
-	fprintf(stdout, "iniciando page table\n");
 	
 	// Inicializa parametros gerais. Chamadas devem ser feitas nessa ordem.
 	set_page_size(page_size_kb);
@@ -22,17 +21,14 @@ void init_page_table(unsigned page_size_kb) {
 	set_num_pages();
 	// Preenche a tabela
 	page_table = (page_table_item*) malloc( (num_pages+1) * sizeof(page_table_item));
-	fprintf(stdout, "tabela criada \n");
+
 	int i;
 	for (i = 0; i < num_pages; i++) {
 		page_table[i].valid = 0;
 		page_table[i].dirty = 0;
 		page_table[i].on_swap = 0;
 		page_table[i].frame_number  = 0;
-	}
-	
-	fprintf(stdout, "page table alocada\n");
-	
+	}	
 }
 
 /* Inicializa a lista de frames
@@ -42,18 +38,14 @@ void init_page_table(unsigned page_size_kb) {
 *
 */	
 void init_frames_list(unsigned phys_mem_size, unsigned page_size) {
-	num_frames = phys_mem_size / page_size;
-	
-	fprintf(stdout, "num frames: %d\n", num_frames);
-	
+	num_frames = phys_mem_size / page_size;	
+
 	frames_list = (frame*) malloc( (num_frames+1) * sizeof(frame));
 	int i;
 	for (i = 0; i < num_frames; i++) {
 		frames_list[i].allocated = 0;
 		frames_list[i].p = NULL;
 	}
-	
-	fprintf(stdout, "frames list alocada\n");
 }	
 
 /* Seta o valor de page_size em bites
@@ -177,20 +169,29 @@ unsigned get_frame(addr v_addr, char type) {
 	unsigned pg_idx = v_addr >> s;
 	
 	page_table_item* page = &page_table[pg_idx];
-	if (!(page->valid)) { 			// Pagina nao eh valida, um frame deve ser alocado para ela
+	if (!(page->valid)) { // Página nao é valida, um frame deve ser alocado para ela
 		faults_counter++;
 	    allocate_frame(page);
 	} 
 
-	if (type == 'M')
+	if (type == 'W') {
 		page->dirty = 1;
-	
-	// Chamada para atualizar a referencia necessaria para o algoritmo de substituicao
+	} 
+
+	// Chamada para atualizar a referência necessária para o algoritmo de substituição
 	ref_function(page);
 	
 	return page->frame_number;
 }
 
+// Imprime a tabela de páginas
+void print_page_table() {
+	printf("Página\t|Endereço Físico\t|Validade\n");
+	printf("----------------------------------------------------\n");
 
-	
+	for (int i = 0; i < num_pages; ++i)
+	{
+		printf("%3d\t|%3d\t\t\t|%3d\n", i, page_table[i].frame_number, page_table[i].valid);
+	}
+}	
 	

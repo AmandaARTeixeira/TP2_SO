@@ -5,25 +5,25 @@
 #include <stdlib.h>
 #include <stdint.h> 
 
-#define N_BITS_ADDR	32							// Numero de bits de um endereco
+// Numero de bits de um endereco
+#define N_BITS_ADDR	32
 
-extern unsigned s;											// Numero de bits a serem descartados para identificar a pagina de um endereco
-extern unsigned num_pages;							// Numero total de paginas armazenadas na tabela
-extern unsigned page_size;							// Tamanho de cada pagina em bytes
+extern unsigned s; // Numero de bits a serem descartados para identificar a pagina de um endereco
+extern unsigned num_pages; // Numero total de paginas armazenadas na tabela
+extern unsigned page_size;	// Tamanho de cada pagina em bytes
 
-typedef unsigned long addr;			// Tipo para armazenar enderecos
+typedef unsigned long addr;	// Tipo para armazenar enderecos
 
 typedef struct {
-	short int valid;					// 1 se o frame estiver na memória, se não, é igual a 0.
-	short int dirty;					// 1 se o frame tiver sido modificado desde que foi carregado na memória, 0 caso contrario.
-	short int on_swap;			// 1 se o frame estiver no disco para swap, 0 caso contrário.
-	int frame_number;			// Numero do frame.
-	// unsigned long stamp;
+	short int valid; // 1 se o frame estiver na memória, se não, é igual a 0.
+	short int dirty; // 1 se o frame tiver sido modificado desde que foi carregado na memória, 0 caso contrario.
+	short int on_swap;	// 1 se o frame estiver no disco para swap, 0 caso contrário.
+	int frame_number;	// Numero do frame.
 } page_table_item;
 
 typedef struct {
-	short int allocated;			// 1 se o frame estiver alocado na memória física, 0 caso contrário
-	page_table_item *p;		// Ponteiro para a entrada correspondente na tabela de páginas
+	short int allocated; // 1 se o frame estiver alocado na memória física, 0 caso contrário
+	page_table_item *p;	// Ponteiro para a entrada correspondente na tabela de páginas
 } frame;
 
 /* A estrutura a seguir lista os frames (páginas físicas) presentes na memória física,
@@ -50,7 +50,6 @@ void destroy_frames_list();
 
 // A seguir estão protótipos de funções que serão utilizadas pelos algoritmos
 // de substituição.
-
 extern void rand_ref(page_table_item *);
 extern void lru_ref(page_table_item *);
 extern void clock_ref(page_table_item *);
@@ -71,5 +70,6 @@ void set_page_size(int page_size_kb);
 void set_s();
 void set_num_pages();
 int find_free_frame();
+void print_page_table();
 
 #endif 

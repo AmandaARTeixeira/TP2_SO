@@ -1,6 +1,6 @@
 #ifndef TP2_VIRTUAL_H
 #define TP2_VIRTUAL_H
-#include "page_table.h"
+#include "page_table.h" 
 
 extern int faults_counter; // Número de page faults
 extern int dirty_counter; // Número de páginas sujas escritas no disco
