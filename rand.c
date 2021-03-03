@@ -21,10 +21,7 @@ int rand_replace() {
 	return idx;
 }
 
-/* Essa função é chamada em cada acesso a uma página para atualizar qualquer informação
- * necessário pelo algoritmo rand.
- * Entrada: a entrada da tabela da página que está sendo acessada.
- */
+// Esse algoritimo não precisa dessa função. Elas estão ai apenas para compatibilidade.
 void rand_ref(page_table_item *p) {
 	return;
 }

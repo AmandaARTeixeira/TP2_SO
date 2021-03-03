@@ -16,7 +16,8 @@ char *log_file = NULL;
  // Array para mapear o nome do algoritmo ao nome das funcoes
 int num_algs = 2;
 struct replacement_alg algs[] = {
-	{"rand", rand_init, rand_ref, rand_replace}, 
+	{"rand", rand_init, rand_ref, rand_replace},
+	{"lru", lru_init, lru_ref, lru_replace}, 
 	{"fifo", fifo_init, fifo_ref, fifo_replace}
 };
 

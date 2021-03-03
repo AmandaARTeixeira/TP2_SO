@@ -5,7 +5,7 @@
 
 // Nó do vetor armazena os dados dele e um ponteiro para o próximo nó
 typedef struct Node {
-	void* data;
+	int data;
 	struct Node* next;
 } Node;
 
@@ -20,10 +20,10 @@ typedef struct Vector {
 struct Vector* init_vector();
 
 // Insere um elemento no inicio do vetor
-void vector_push(struct Vector* vec, void* data);
+void vector_push(struct Vector* vec, int data);
 
 // Remove o elemento com o valor dado 
-struct Node* remove_data_from_vector(struct Vector* vec, void* data);
+struct Node* remove_data_from_vector(struct Vector* vec, int data);
 
 // Remove o primeiro item do vetor
 struct Node* vector_pop(struct Vector* vec);

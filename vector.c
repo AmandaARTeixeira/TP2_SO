@@ -23,7 +23,7 @@ struct Vector* init_vector() {
  * data é o valor do nó a ser colocado;
  *
  */
-void vector_push(struct Vector* vec, void* data) {
+void vector_push(struct Vector* vec, int data) {
 	struct Node* node = (struct Node *)malloc(sizeof(struct Node));
 	node->data = data;
 	node->next = NULL;
@@ -46,7 +46,7 @@ void vector_push(struct Vector* vec, void* data) {
  * @return: nó que foi removido;
  *
  */
-struct Node* remove_data_from_vector(struct Vector* vec, void* data) {
+struct Node* remove_data_from_vector(struct Vector* vec, int data) {
 	struct Node* current = vec->head;
 	struct Node* previous = NULL;
 
@@ -115,7 +115,7 @@ void print_vector(struct Vector* vec) {
     printf("Vetor:\n");
 
 	while(aux != NULL) {
-		printf("%p\n", aux->data);
+		printf("%d\n", aux->data);
 
 		aux = aux->next;
 	}

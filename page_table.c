@@ -191,7 +191,8 @@ void print_page_table() {
 
 	for (int i = 0; i < num_pages; ++i)
 	{
-		printf("%3d\t|%3d\t\t\t|%3d\n", i, page_table[i].frame_number, page_table[i].valid);
+		if(page_table[i].frame_number > 0)
+			printf("%3d\t|%3d\t\t\t|%3d\n", i, page_table[i].frame_number, page_table[i].valid);
 	}
 }	
 	
