@@ -13,15 +13,16 @@ int dirty_counter = 0;
 char *log_file = NULL;
 
  
- // Array para mapear o nome do algoritmo ao nome das funcoes
+ // Array para mapear o nome do algoritmo ao nome das funções
 int num_algs = 2;
 struct replacement_alg algs[] = {
 	{"rand", rand_init, rand_ref, rand_replace},
+	{"2a", segunda_chance_init, segunda_chance_ref, segunda_chance_replace},
 	{"lru", lru_init, lru_ref, lru_replace}, 
 	{"fifo", fifo_init, fifo_ref, fifo_replace}
 };
 
-// Declarando funçõess
+// Declarando funções
 void (*init_function) () = NULL;
 void (*ref_function) (page_table_item *) = NULL;
 int (*replace_function) () = NULL;

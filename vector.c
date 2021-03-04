@@ -75,6 +75,73 @@ struct Node* remove_data_from_vector(struct Vector* vec, int data) {
 	return current;
 }
 
+/* Elimina o primeiro item do vetor com o bit zero e seta os bits pelo qual ele passou
+ * para zero
+ *  
+ * @param: vec é o vetor do qual será removido o elemento;
+ * @return: nó que foi removido;
+ *
+ */
+struct Node* remove_first_bit_zero_from_vector(struct Vector* vec) {
+	struct Node* current = vec->head;
+	struct Node* previous = NULL;
+
+	if(vec->head == NULL) {
+		return NULL;
+	}
+
+	while(current->bit > 0) {
+
+		if(current->next == NULL) {
+			current = vec->head;
+		} else {
+			previous = current;
+			previous->bit = 0;
+			current = current->next;
+		}
+	}
+
+	if(current == vec->head) {
+		vec->head = vec->head->next;
+	} else {
+		previous->next = current->next;
+	}
+
+	vec->size--;
+
+	return current;
+}
+
+/* Elimina um item do vetor
+ *  
+ * @param: vec é o vetor do qual o vetor será atualizado o elemento;
+ * data é o valor do nó a ser removido;
+ * @return: retorna 1 se o nó existir e 0 se não
+ *
+ */
+int set_node_bit_to_one(struct Vector* vec, int data) {
+	struct Node* current = vec->head;
+	struct Node* previous = NULL;
+
+	if(vec->head == NULL) {
+		return 0;
+	}
+
+	while(current->data != data) {
+
+		if(current->next == NULL) {
+			return 0;
+		} else {
+			previous = current;
+			current = current->next;
+		}
+	}
+
+	current->bit = 0;
+
+	return 1;
+}
+
 /* Elimina um item do inicio do vetor
  *  
  * @param: vec é o vetor do qual será removido o elemento;

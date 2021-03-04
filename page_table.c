@@ -186,13 +186,12 @@ unsigned get_frame(addr v_addr, char type) {
 
 // Imprime a tabela de páginas
 void print_page_table() {
-	printf("Página\t|Endereço Físico\t|Validade\n");
+	printf("Página\t|Endereço Físico\t|No swap\t|Validade\n");
 	printf("----------------------------------------------------\n");
 
 	for (int i = 0; i < num_pages; ++i)
 	{
-		if(page_table[i].frame_number > 0)
-			printf("%3d\t|%3d\t\t\t|%3d\n", i, page_table[i].frame_number, page_table[i].valid);
+		printf("%3d\t|%3d\t\t\t|%3d\t|%3d\n", i, page_table[i].frame_number,page_table[i].on_swap, page_table[i].valid);
 	}
 }	
 	

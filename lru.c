@@ -3,13 +3,13 @@
 #include "page_table.h"
 #include "vector.h"
 
-struct Vector* vec;
+struct Vector* vec_lru;
 
 /* Algoritmo lru para escolher a pagina a ser substituida
  * @return: o número do frame que sera desalocado
  */
 int lru_replace() {
-    struct Node* node = vector_pop(vec);
+    struct Node* node = vector_pop(vec_lru);
 
     return node->data;
 }
@@ -21,15 +21,15 @@ int lru_replace() {
  */
 void lru_ref(page_table_item *p) {
 	// Se o frame_number estiver no vetor retira ele para colocar no fim da fila
-	remove_data_from_vector(vec, p->frame_number);
+	remove_data_from_vector(vec_lru, p->frame_number);
 
 	// Coloca o frame_number no fim da fila
-	vector_push(vec, p->frame_number);
+	vector_push(vec_lru, p->frame_number);
 
 	return;
 }
 
 // Inicializa o vetor
 void lru_init() {
-	vec = init_vector();
+	vec_lru = init_vector();
 }

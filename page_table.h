@@ -52,17 +52,17 @@ void destroy_frames_list();
 // de substituição.
 extern void rand_ref(page_table_item *);
 extern void lru_ref(page_table_item *);
-extern void clock_ref(page_table_item *);
+extern void segunda_chance_ref(page_table_item *);
 extern void fifo_ref(page_table_item *);
 
 extern int rand_replace();
 extern int lru_replace();
-extern int clock_replace();
+extern int segunda_chance_replace();
 extern int fifo_replace();
 
 extern void rand_init();
 extern void lru_init();
-extern void clock_init();
+extern void segunda_chance_init();
 extern void fifo_init();
 
 // Funcoes auxiliares
