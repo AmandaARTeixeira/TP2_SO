@@ -14,7 +14,7 @@ char *log_file = NULL;
 
  
  // Array para mapear o nome do algoritmo ao nome das funções
-int num_algs = 2;
+int num_algs = 4;
 struct replacement_alg algs[] = {
 	{"rand", rand_init, rand_ref, rand_replace},
 	{"2a", segunda_chance_init, segunda_chance_ref, segunda_chance_replace},
@@ -65,29 +65,28 @@ int main(int argc, char *argv[]) {
 		init_page_table(page_size);
 		init_frames_list(mem_size, page_size);
 
-		// Imprime a tabela inicial
-		printf("Tabela inicial\n\n");
-		print_page_table();
-
 		// Inicializando funções do algoritmo de substituição
 		int i;
 		for (i = 0; i < num_algs; i++) {
-		if(strcmp(algs[i].name, alg) == 0) {
-			init_function = algs[i].init;
-			ref_function = algs[i].ref;
-			replace_function = algs[i].replace;
-			break;
+			if(strcmp(algs[i].name, alg) == 0) {
+				init_function = algs[i].init;
+				ref_function = algs[i].ref;
+				replace_function = algs[i].replace;
+				break;
+			}
 		}
-	}
+
+		if(i >= num_algs) {
+			printf("Esse algorítimo não foi implementado\n");
+
+			exit(1);
+		}
 
 		// Inicializa o algoritmo de substituição
 		init_function();
 
 		execute(file);
 
-		// Imprime a tabela final
-		printf("\nTabela final\n\n");
-		print_page_table();
 		// Imprime as informações necessárias
 		printf("\nArquivo de entrada: %s\n", log_file);
 		printf("Tamanho da memória: %d KB\n", mem_size);
@@ -95,6 +94,10 @@ int main(int argc, char *argv[]) {
 		printf("Tecnica de reposição: %s\n", alg);
 		printf("Paginas lidas:  %d\n", faults_counter);
 		printf("Paginas escritas: %d\n", dirty_counter);
+
+		// Imprime a tabela final
+		printf("\nTabela final\n");
+		print_page_table();
 
 		// Desaloca as estruturas
 		destroy_page_table();
