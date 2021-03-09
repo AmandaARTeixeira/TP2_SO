@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
 
 		// Imprime a tabela final
 		printf("\nTabela final\n");
-		print_page_table();
+		print_frames();
 
 		// Desaloca as estruturas
 		destroy_page_table();

@@ -15,10 +15,12 @@ extern unsigned page_size;	// Tamanho de cada pagina em bytes
 typedef unsigned long addr;	// Tipo para armazenar enderecos
 
 typedef struct {
+	addr logic_addr; // Armazena o endereço lógico
 	short int valid; // 1 se o frame estiver na memória, se não, é igual a 0.
 	short int dirty; // 1 se o frame tiver sido modificado desde que foi carregado na memória, 0 caso contrario.
 	short int on_swap;	// 1 se o frame estiver no disco para swap, 0 caso contrário.
-	int frame_number;	// Numero do frame.
+	int frame_number;	// Número do frame.
+	char last_op;		// Última operação realizada
 } page_table_item;
 
 typedef struct {
@@ -70,6 +72,6 @@ void set_page_size(int page_size_kb);
 void set_s();
 void set_num_pages();
 int find_free_frame();
-void print_page_table();
+void print_frames();
 
 #endif 

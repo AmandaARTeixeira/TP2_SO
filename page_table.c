@@ -169,6 +169,8 @@ unsigned get_frame(addr v_addr, char type) {
 	unsigned pg_idx = v_addr >> s;
 	
 	page_table_item* page = &page_table[pg_idx];
+	page->logic_addr = v_addr;
+	page->last_op = type;
 	if (!(page->valid)) { // Página nao é valida, um frame deve ser alocado para ela
 		faults_counter++;
 	    allocate_frame(page);
@@ -185,13 +187,12 @@ unsigned get_frame(addr v_addr, char type) {
 }
 
 // Imprime a tabela de páginas
-void print_page_table() {
-	printf("Página\t|Endereço Físico\t|No swap\t|Validade\n");
-	printf("----------------------------------------------------\n");
+void print_frames() {
+	printf("Endereço Lógico\t|Última operação|Dirty bit\n");
 
-	for (int i = 0; i < num_pages; ++i)
+	for (int i = 0; i < num_frames; ++i)
 	{
-		printf("%3d\t|%3d\t\t\t|%3d\t|%3d\n", i, page_table[i].frame_number,page_table[i].on_swap, page_table[i].valid);
+		printf("%3lx   \t|%3c\t\t|%3d\t\n", frames_list[i].p->logic_addr, frames_list[i].p->last_op, frames_list[i].p->dirty);
 	}
 }	
 	
