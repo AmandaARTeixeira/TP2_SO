@@ -12,6 +12,9 @@ int faults_counter = 0;
 int dirty_counter = 0; 
 char *log_file = NULL;
 
+// Variáveis para contar o número de páginas lidas e escritas
+int read_count = 0;
+int write_count = 0;
  
  // Array para mapear o nome do algoritmo ao nome das funções
 int num_algs = 4;
@@ -34,6 +37,12 @@ void execute(FILE *log) {
 
 	while (fscanf(log,"%x %c",&v_addr,&rw)!=EOF)  {
 		get_frame(v_addr, rw);
+
+		if(rw == 'W') {
+			write_count++;
+		} else if(rw == 'R') {
+			read_count++;
+		}
 	}
 	
 }
@@ -92,11 +101,13 @@ int main(int argc, char *argv[]) {
 		printf("Tamanho da memória: %d KB\n", mem_size);
 		printf("Tamanho das páginas: %d KB\n", page_size);
 		printf("Tecnica de reposição: %s\n", alg);
-		printf("Paginas lidas:  %d\n", faults_counter);
-		printf("Paginas escritas: %d\n", dirty_counter);
+		printf("Total de acessos a memória: %d\n", (read_count + write_count));
+		printf("Páginas lidas: %d\n", read_count);
+		printf("Páginas escritas: %d\n", write_count);
+		printf("Page faults:  %d\n", faults_counter);
+		printf("Páginas sujas: %d\n\n", dirty_counter);
 
 		// Imprime a tabela final
-		printf("\nTabela final\n");
 		print_frames();
 
 		// Desaloca as estruturas
