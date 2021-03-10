@@ -3,6 +3,7 @@
 #include <getopt.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h> //clock(), CLOCKS_PER_SEC e clock_t
 
 #include "tp2virtual.h"
 #include "page_table.h"
@@ -49,6 +50,7 @@ void execute(FILE *log) {
 
 int main(int argc, char *argv[]) {
 	int opt;
+	clock_t t; //variável para armazenar tempo
 	
 	if(argc != 6) {
 	
@@ -69,6 +71,9 @@ int main(int argc, char *argv[]) {
 				exit(1);
 			}
 		}
+
+		//Verificando tempo de execução do bubble sort=> t2
+ 	 	t = clock(); //armazena tempo
 
 		// Initializa a page_table e a frames_list
 		init_page_table(page_size);
@@ -96,6 +101,8 @@ int main(int argc, char *argv[]) {
 
 		execute(file);
 
+		t = clock() - t; //tempo final - tempo inicial
+
 		// Imprime as informações necessárias
 		printf("\nArquivo de entrada: %s\n", log_file);
 		printf("Tamanho da memória: %d KB\n", mem_size);
@@ -105,7 +112,8 @@ int main(int argc, char *argv[]) {
 		printf("Páginas lidas: %d\n", read_count);
 		printf("Páginas escritas: %d\n", write_count);
 		printf("Page faults:  %d\n", faults_counter);
-		printf("Páginas sujas: %d\n\n", dirty_counter);
+		printf("Páginas sujas: %d\n", dirty_counter);
+		printf("Tempo de execucao: %lfs\n\n", ((double)t)/((CLOCKS_PER_SEC)));
 
 		// Imprime a tabela final
 		print_frames();
